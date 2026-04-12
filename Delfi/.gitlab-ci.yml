@@ -1,0 +1,14 @@
+stages:
+  - validate
+  - deploy
+
+validate:
+  stage: validate
+  script:
+    - terraform init
+    - terraform validate
+
+deploy:
+  stage: deploy
+  script:
+    - terraform apply -auto-approve

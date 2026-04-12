@@ -1,0 +1,13 @@
+# Terraform
+.terraform/
+terraform.tfstate
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*.tfvars
+!terraform.tfvars
+
+# Build artifacts
+lambda.zip
