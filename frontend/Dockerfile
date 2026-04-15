@@ -13,5 +13,5 @@ RUN apk add --no-cache curl
 EXPOSE 3000
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD curl -f http://localhost:3000/health || exit 1
-
+#HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD curl -f http://localhost:3000/healthz || exit 1
 CMD ["npm", "start"]

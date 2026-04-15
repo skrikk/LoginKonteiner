@@ -1,6 +1,7 @@
 services:
   redis:
     image: redis:7-alpine
+    mem_limit: 50m
     container_name: login-redis
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -10,6 +11,8 @@ services:
 
   backend:
     build: ./backend
+    mem_limit: 50m
+    cpus: "0.5"
     container_name: login-backend
     environment:
       PORT: "4000"
@@ -21,6 +24,8 @@ services:
 
   frontend:
     build: ./frontend
+    mem_limit: 50m
+    cpus: "0.5"
     container_name: login-frontend
     ports:
       - "3000:3000"
