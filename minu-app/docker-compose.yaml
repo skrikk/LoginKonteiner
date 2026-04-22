@@ -1,0 +1,57 @@
+services:
+  esimene:
+    env_file:
+      - ${ENV_FILE}
+    image: minu-app:${VERSION}
+    secrets:
+      - db_password
+    networks:
+      - minu-võrk1    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"    # maksimaalne faili suurus
+        max-file: "3"      # mitu faili hoida
+    mem_limit: ${MEM_LIMIT}
+    container_name: ${ESIMENE_NAME}
+    ports:
+      - "${HOST_PORT}:${PORT}"
+    depends_on:
+      - teine
+
+  teine:
+    env_file:
+      - ${ENV_FILE}
+    image: minu-app:${VERSION}
+    networks:
+      - minu-võrk2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"    # maksimaalne faili suurus
+        max-file: "3"      # mitu faili hoida
+    mem_limit: ${MEM_LIMIT}
+    container_name: ${TEINE_NAME}
+    ports:
+      - "${HOST_PORT1}:${PORT}"
+
+networks:
+  minu-võrk1:
+    driver: bridge
+  minu-võrk2:
+    driver: bridge
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt

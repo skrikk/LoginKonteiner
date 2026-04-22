@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        env: arendus
+        version: "1.0"
+    spec:
+      containers:
+        - name: nginx
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: PORT
+              value: "4000"
+          image: nginx:latest
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:                 # ← konteineri tasemel
+            - name: redis-andmed        # peab ühtima volumes name'iga
+              mountPath: /data  
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secret
+      volumes:                          # ← podi tasemel
+        - name: redis-andmed            # nimi (vali ise)
+          persistentVolumeClaim:
+            claimName: test-pvc

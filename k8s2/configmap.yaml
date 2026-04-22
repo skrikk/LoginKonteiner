@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loginkonteiner-config
+  namespace: loginkonteiner
+data:
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  PORT: "4000"

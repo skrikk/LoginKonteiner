@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  loginapp:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-04-21T21:18:05.4433112+03:00"
+    description: Login rakendus frontend + backend + redis
+    digest: 6f1e127d77d8bca3f45b911da8cd0197ec1fe25d638355a492cbba497a311aa4
+    name: loginapp
+    type: application
+    urls:
+    - loginapp-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-04-21T21:18:05.4427169+03:00"
